@@ -30,19 +30,30 @@ $(document).ready(function(){
 
 
 		});
+	});
 			
 			//utility function to generate new rows of HTML for what "data" we pass in.
 			function getNewRow(data){
 				var stockInfo = data.query.results.quote;
-
-
 				var newHTML = ''
+
+				if(stockInfo.Ask == null){
+					stockInfo.Ask = "Not Available for this stock";
+				}
+				if(stockInfo.Change !== null){
+					if(stockInfo.Change.indexOf('+') > -1){
+						var classChange = "success";
+					}else{
+						var classChange = "danger";
+					}			
+				}
+
 				newHTML += '<tr>';
 					newHTML +='<td>' + stockInfo.Symbol + '</td>'
 					newHTML +='<td>' + stockInfo.Name + '</td>'
 					newHTML +='<td>' + stockInfo.Ask + '</td>'
 					newHTML +='<td>' + stockInfo.Bid + '</td>'
-					newHTML +='<td>' + stockInfo.Change + '</td>'
+					newHTML +='<td class="bg-' + classChange + '">' + stockInfo.Change + '</td>'
 				newHTML += '</tr>'
 
 				return newHTML;
@@ -50,19 +61,9 @@ $(document).ready(function(){
 
 
 			}
-
-
-			$('#stock-ticker-body').html(newHTML);
-
-	
-
-
-
-	
-
 			
 
-		});
+		
 
 
 
